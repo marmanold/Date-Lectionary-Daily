@@ -35,6 +35,7 @@ WriteMakefile(
         'Date::Advent'                 => '1.20160727',
         'Date::Easter'                 => '1.22',
         'Date::Lectionary::Time'       => '1.20170311',
+        'Date::Lectionary'             => '1.20161227', 
         'namespace::autoclean'         => '0.28',
         'File::Share'                  => '0.25',
         'XML::LibXML'                  => '2.0128',
