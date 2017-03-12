@@ -10,4 +10,4 @@ BEGIN {
     use_ok('Date::Lectionary::Daily')       || print "Bail out!\n";
 }
 
-diag("Testing Date::Lectionary $Date::Lectionary::VERSION, Perl $], $^X");
+diag("Testing Date::Lectionary::Daily $Date::Lectionary::Daily::VERSION, Perl $], $^X");
