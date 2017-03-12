@@ -8,7 +8,8 @@ Date::Lectionary
     use Time::Piece;
     use Date::Lectionary::Daily;
 
-    #More to come
+    my $dailyReading = Date::Lectionary::Daily->new('date' => Time::Piece->strptime("2017-12-24", "%Y-%m-%d"));
+    say $dailyReading->readings->{evening}->{1}; #First lesson for evening prayer
 
 =head1 DESCRIPTION
 
