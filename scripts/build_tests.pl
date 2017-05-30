@@ -4,7 +4,8 @@ use v5.22;
 use strict;
 use warnings;
 
-use Data::Dumper;
+use Date::Lectionary;
+use Date::Lectionary::Time qw(nextSunday prevSunday);
 use Math::Random::Secure qw(rand);
 
 my @years = (2016 .. 2025);
@@ -15,12 +16,28 @@ my @order = (1 .. 2);
 
 open(OUT, '>data.txt');
 
-for (1 .. 100) {
+for (1 .. 150) {
 	my $year = &random(@years);
 	my $month = &random(@month);
 	my $day = &random(@day);
 	my $ss = int rand(2);
 	my $oo = int rand(2);
+
+	my $dday = Time::Piece->strptime( "$year-$month-$day", "%Y-%m-%d" );
+
+	my $lect = undef;
+	if ($dday->wday == 1) {
+		$lect = Date::Lectionary->new( 'date' => $dday);
+
+	}
+	else {
+		$lect = Date::Lectionary->new( 'date' => prevSunday($dday));
+	}
+
+	my $name = $lect->day->name;
+	my $dayName = $dday->fullday;
+
+	say OUT qq{\t#Lectionary Week: $name -- Day: $dayName};
 
 	say OUT qq{\t\$testReading = Date::Lectionary::Daily->new(
 	    'date' => Time::Piece->strptime( "$year-$month-$day", "%Y-%m-%d" ) );
