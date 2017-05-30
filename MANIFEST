@@ -2,6 +2,7 @@ lib/Date/Lectionary/Daily.pm
 Makefile.PL
 MANIFEST			This list of files
 README.pod
+share/acna_lect_daily.xml
 t/00-load.t
 t/01-week.t
 t/02-readings.t
@@ -10,4 +11,3 @@ t/manifest.t
 t/pod-coverage.t
 t/pod.t
 xt/boilerplate.t
-share/acna_lect_daily.xml

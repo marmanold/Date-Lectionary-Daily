@@ -21,7 +21,7 @@ $testWeek = Date::Lectionary::Daily->new(
 is(
     $testWeek->week,
     'The Second Sunday in Lent',
-	'Ensuring that 2017-03-12 is of the week of the Secondy Sunday in Lent'
+	'Ensuring that 2017-03-12 is of the week of the Second Sunday in Lent'
 );
 
 

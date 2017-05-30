@@ -16,3 +16,4 @@ pm_to_blib
 Date-Lectionary-Daily*
 Date-Lectionary-Daily*.tar.gz
 .DS_Store
+scripts/data.txt
