@@ -21,11 +21,25 @@ Date::Lectionary::Daily - Daily Readings for the Christian Lectionary
 
 =head1 VERSION
 
-Version 1.20170311
+Version 1.20170703
 
 =cut
 
-our $VERSION = '1.20170311';
+=head1 SYNOPSIS
+
+    use Time::Piece;
+    use Date::Lectionary::Daily;
+
+    my $dailyReading = Date::Lectionary::Daily->new('date' => Time::Piece->strptime("2017-12-24", "%Y-%m-%d"));
+    say $dailyReading->readings->{evening}->{1}; #First lesson for evening prayer
+
+=head1 DESCRIPTION
+
+Date::Lectionary::Daily takes a Time::Piece date and returns ACNA readings for morning and evening prayer for that date.
+
+=cut
+
+our $VERSION = '1.20170703';
 
 enum 'LectionaryType', [qw(acna)];
 no Moose::Util::TypeConstraints;

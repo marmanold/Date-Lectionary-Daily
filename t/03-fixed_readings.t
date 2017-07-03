@@ -29,14 +29,14 @@ $testReading = Date::Lectionary::Daily->new(
     'date' => Time::Piece->strptime( "2017-12-24", "%Y-%m-%d" ) );
 is(
     $testReading->readings->{evening}->{1},
-    'Zech. 2. 10-end',
-	'The first reading for evening prayer on 2017-12-24 should be Zech. 2. 10-end'
+    'Zechariah 2:10-end',
+	'The first reading for evening prayer on 2017-12-24 should be Zechariah 2:10-end'
 );
 
 $testReading = Date::Lectionary::Daily->new(
     'date' => Time::Piece->strptime( "2017-12-24", "%Y-%m-%d" ) );
 is(
     $testReading->readings->{evening}->{2},
-    'Heb. 2. 10-18',
-	'The second reading for evening prayer on 2017-12-24 should be Heb. 2. 10-18'
+    'Hebrews 2:10-18',
+	'The second reading for evening prayer on 2017-12-24 should be Hebrews 2:10-18'
 );
