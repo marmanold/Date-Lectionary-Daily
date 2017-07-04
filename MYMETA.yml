@@ -10,7 +10,7 @@ configure_requires:
   ExtUtils::MakeMaker: '0'
   File::ShareDir::Install: '0.11'
 dynamic_config: 0
-generated_by: 'ExtUtils::MakeMaker version 7.0402, CPAN::Meta::Converter version 2.150001'
+generated_by: 'ExtUtils::MakeMaker version 7.3, CPAN::Meta::Converter version 2.150010'
 keywords:
   - lectionary
   - rcl
@@ -30,7 +30,7 @@ no_index:
 provides:
   Date::Lectionary::Daily:
     file: lib/Date/Lectionary/Daily.pm
-    version: '1.20170311'
+    version: '1.20170703'
 requires:
   Carp: '1.38'
   Date::Advent: '1.20160727'
@@ -50,4 +50,5 @@ requires:
 resources:
   repository: git://github.com/marmanold/Date-Lectionary-Daily.git
 version: '1.20170703'
+x_serialization_backend: 'CPAN::Meta::YAML version 0.018'
 x_twitter: https://www.twitter.com/marmanold/
