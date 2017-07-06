@@ -18,6 +18,9 @@ install:
   - cpan-install --deps
   - cpan-install --coverage
 
+after_install:
+  - make realclean
+
 before_script:
   - coverage-setup
 
