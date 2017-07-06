@@ -10,11 +10,12 @@ before_install:
   - build-perl
   - perl -V
   - mkdir $HOME/.cpanreporter
-  - echo "edit_report=no\nemail_from="Michael Arnold" <michael@rnold.info>\nsend_report=yes\ntransport=Metabase uri https://metabase.cpantesters.org/api/v1/ id_file metabase_id.json" > $HOME/.cpanreporter/config.ini
+  - mv config.ini $HOME/.cpanreporter/config.ini
+  - cat $HOME/.cpanmreporter/config.ini
 
 install:
   - export RELEASE_TESTING=1 AUTOMATED_TESTING=1 AUTHOR_TESTING=1 HARNESS_OPTIONS=c HARNESS_TIMER=1
-  - cpanm --quiet --notest Devel::Cover::Report::Coveralls App::cpanminus::reporter
+  - cpanm --quiet --notest --installdeps Devel::Cover::Report::Coveralls App::cpanminus::reporter
   - cpanm --quiet --notest --installdeps .
 
 script:
