@@ -15,10 +15,18 @@ before_install:
 
 install:
   - export RELEASE_TESTING=1 AUTOMATED_TESTING=1 AUTHOR_TESTING=1 HARNESS_OPTIONS=c HARNESS_TIMER=1
+<<<<<<< HEAD
   - cpanm --quiet --notest --installdeps Devel::Cover::Report::Coveralls App::cpanminus::reporter
   - cpanm --quiet --notest --installdeps .
 
 script:
   - PERL5OPT=-MDevel::Cover=-coverage,statement,branch,condition,path,subroutine prove -lrsv t
   - perl Makefile.PL && make && cover -test -report coveralls
+=======
+  - cpanm --quiet --notest Devel::Cover::Report::Coveralls App::cpanminus::reporter
+  - cpanm --quiet --notest .
+
+script:
+  - cover -test -report coveralls
+>>>>>>> parent of 1d4e21d... Another attempt
   - cpanm-reporter
