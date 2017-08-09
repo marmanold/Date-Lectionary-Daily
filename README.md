@@ -1,15 +1,12 @@
-=head1 NAME
+# NAME
 
 Date::Lectionary::Daily - Daily Readings for the Christian Lectionary
 
-=head1 VERSION
+# VERSION
 
 Version 1.20170809
 
-
-=cut
-
-=head1 SYNOPSIS
+# SYNOPSIS
 
     use Time::Piece;
     use Date::Lectionary::Daily;
@@ -17,91 +14,67 @@ Version 1.20170809
     my $dailyReading = Date::Lectionary::Daily->new('date' => Time::Piece->strptime("2017-12-24", "%Y-%m-%d"));
     say $dailyReading->readings->{evening}->{1}; #First lesson for evening prayer
 
-=head1 DESCRIPTION
+# DESCRIPTION
 
 Date::Lectionary::Daily takes a Time::Piece date and returns ACNA readings for morning and evening prayer for that date.
 
+# SUBROUTINES/METHODS
 
-=cut
+## BUILD
 
-=head1 SUBROUTINES/METHODS
+Constructor for the Date::Lectionary object.  Takes a Time::Piect object, `date`, to create the object.
 
-
-=cut
-
-=head2 BUILD
-
-Constructor for the Date::Lectionary object.  Takes a Time::Piect object, C<date>, to create the object.
-
-
-=cut
-
-=head2 _parseLectDB
+## \_parseLectDB
 
 Private method to open and parse the lectionary XML to be used by other methods to XPATH queries.
 
-
-=cut
-
-=head2 _checkFixed
+## \_checkFixed
 
 Private method to determine if the day given is a fixed holiday rather than a standard day.
 
-
-=cut
-
-=head2 _buildReadings
+## \_buildReadings
 
 Private method that returns an ArrayRef of strings for the lectionary readings associated with the date.
 
+# AUTHOR
 
-=cut
+Michael Wayne Arnold, `<marmanold at cpan.org>`
 
-=head1 AUTHOR
+# BUGS
 
-Michael Wayne Arnold, C<< <marmanold at cpan.org> >>
-
-=head1 BUGS
-
-Please report any bugs or feature requests to C<bug-date-lectionary-daily at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Date-Lectionary-Daily>.  I will be notified, and then you'll
+Please report any bugs or feature requests to `bug-date-lectionary-daily at rt.cpan.org`, or through
+the web interface at [http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Date-Lectionary-Daily](http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Date-Lectionary-Daily).  I will be notified, and then you'll
 automatically be notified of progress on your bug as I make changes.
 
-=head1 SUPPORT
+# SUPPORT
 
 You can find documentation for this module with the perldoc command.
 
     perldoc Date::Lectionary::Daily
 
-
 You can also look for information at:
 
-=over 4
+- RT: CPAN's request tracker (report bugs here)
 
-=item * RT: CPAN's request tracker (report bugs here)
+    [http://rt.cpan.org/NoAuth/Bugs.html?Dist=Date-Lectionary-Daily](http://rt.cpan.org/NoAuth/Bugs.html?Dist=Date-Lectionary-Daily)
 
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Date-Lectionary-Daily>
+- AnnoCPAN: Annotated CPAN documentation
 
-=item * AnnoCPAN: Annotated CPAN documentation
+    [http://annocpan.org/dist/Date-Lectionary-Daily](http://annocpan.org/dist/Date-Lectionary-Daily)
 
-L<http://annocpan.org/dist/Date-Lectionary-Daily>
+- CPAN Ratings
 
-=item * CPAN Ratings
+    [http://cpanratings.perl.org/d/Date-Lectionary-Daily](http://cpanratings.perl.org/d/Date-Lectionary-Daily)
 
-L<http://cpanratings.perl.org/d/Date-Lectionary-Daily>
+- Search CPAN
 
-=item * Search CPAN
+    [http://search.cpan.org/dist/Date-Lectionary-Daily/](http://search.cpan.org/dist/Date-Lectionary-Daily/)
 
-L<http://search.cpan.org/dist/Date-Lectionary-Daily/>
-
-=back
-
-
-=head1 ACKNOWLEDGEMENTS
+# ACKNOWLEDGEMENTS
 
 Many thanks to my beautiful wife, Jennifer, and my amazing daughter, Rosemary.  But, above all, SOLI DEO GLORIA!
 
-=head1 LICENSE AND COPYRIGHT
+# LICENSE AND COPYRIGHT
 
 Copyright 2017 Michael Wayne Arnold.
 
@@ -109,9 +82,4 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of either: the GNU General Public License as published
 by the Free Software Foundation; or the Artistic License.
 
-See L<http://dev.perl.org/licenses/> for more information.
-
-
-
-=cut
-
+See [http://dev.perl.org/licenses/](http://dev.perl.org/licenses/) for more information.
