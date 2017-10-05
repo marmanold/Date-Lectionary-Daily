@@ -17,6 +17,7 @@ install:
   - export RELEASE_TESTING=1 AUTOMATED_TESTING=1 AUTHOR_TESTING=1 HARNESS_OPTIONS=c HARNESS_TIMER=1 COVERAGE=1
   - cpan-install --deps
   - cpan-install --coverage
+  - cpanm --quiet --notest Devel::Cover::Report::Coveralls
 
 after_install:
   - make realclean
@@ -28,4 +29,5 @@ script:
   - PERL5OPT=-MDevel::Cover=-coverage,statement,branch,condition,path,subroutine prove -lrsv t
 
 after_success:
+  - cover -report coveralls
   - coverage-report
