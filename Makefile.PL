@@ -36,8 +36,8 @@ WriteMakefile(
         'Date::Advent'                 => '1.20160727',
         'Date::Easter'                 => '1.22',
         'Date::Lectionary::Time'       => '1.20170311',
-        'Date::Lectionary'             => '1.20170809',
-        'Date::Lectionary::Day'        => '1.20170809',
+        'Date::Lectionary'             => '1.20180109',
+        'Date::Lectionary::Day'        => '1.20180109',
         'namespace::autoclean'         => '0.28',
         'File::Share'                  => '0.25',
         'XML::LibXML'                  => '2.0128',
@@ -55,7 +55,7 @@ WriteMakefile(
         provides => {
             'Date::Lectionary::Daily' => {
                 file    => 'lib/Date/Lectionary/Daily.pm',
-                version => '1.20171223',
+                version => '1.20180114',
             },
         },
         keywords  => [qw/ lectionary rcl acna readings christian liturgical /],
