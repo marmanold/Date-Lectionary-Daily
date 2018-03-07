@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<daily-lectionary name="ACNA">
+<daily-lectionary name="acna-xian" tradition="acna" type="liturgical">
   <week name="The First Sunday in Advent">
     <day name="Sunday">
       <lesson service="morning" order="1">Isaiah 1:1-20, (21-31)</lesson>

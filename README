@@ -12,8 +12,8 @@ SYNOPSIS
         say $dailyReading->readings->{evening}->{1}; #First lesson for evening prayer
 
 DESCRIPTION
-    Date::Lectionary::Daily takes a Time::Piece date and returns ACNA
-    readings for morning and evening prayer for that date.
+    Date::Lectionary::Daily takes a Time::Piece date and returns readings
+    for morning and evening prayer for that date.
 
 SUBROUTINES/METHODS
   BUILD

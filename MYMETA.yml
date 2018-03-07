@@ -31,7 +31,7 @@ no_index:
 provides:
   Date::Lectionary::Daily:
     file: lib/Date/Lectionary/Daily.pm
-    version: '1.20180205'
+    version: '1.20180307'
 requires:
   Carp: '1.38'
   Date::Advent: '1.20160727'
