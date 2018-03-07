@@ -36,7 +36,7 @@ Version 1.20180307
 
 =head1 DESCRIPTION
 
-Date::Lectionary::Daily takes a Time::Piece date and returns ACNA readings for morning and evening prayer for that date.
+Date::Lectionary::Daily takes a Time::Piece date and returns readings for morning and evening prayer for that date.
 
 =cut
 
