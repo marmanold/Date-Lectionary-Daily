@@ -22,7 +22,7 @@ Date::Lectionary::Daily - Daily Readings for the Christian Lectionary
 
 =head1 VERSION
 
-Version 1.20180205
+Version 1.20180307
 
 =cut
 
@@ -40,9 +40,11 @@ Date::Lectionary::Daily takes a Time::Piece date and returns ACNA readings for m
 
 =cut
 
-our $VERSION = '1.20180205';
+our $VERSION = '1.20180307';
 
-enum 'LectionaryType', [qw(acna)];
+enum 'DailyLectionary', [qw(acna-sec acna-xian)];
+enum 'Tradition', [qw(acna)];
+enum 'LectionaryType', [qw(secular liturgical)];
 no Moose::Util::TypeConstraints;
 
 =head1 SUBROUTINES/METHODS
@@ -71,8 +73,22 @@ has 'day' => (
 
 has 'lectionary' => (
     is      => 'ro',
-    isa     => 'LectionaryType',
-    default => 'acna',
+    isa     => 'DailyLectionary',
+    default => 'acna-xian',
+);
+
+has 'tradition' => (
+    is => 'ro', 
+    isa => 'Tradition', 
+    writer => '_setTradition', 
+    init_arg => undef,
+);
+
+has 'type' => (
+    is => 'ro', 
+    isa => 'LectionaryType', 
+    writer => '_setType', 
+    init_arg => undef,
 );
 
 has 'readings' => (
@@ -91,6 +107,9 @@ Constructor for the Date::Lectionary object.  Takes a Time::Piect object, C<date
 sub BUILD {
     my $self = shift;
 
+    $self->_setTradition(_buildTradition($self->lectionary));
+    $self->_setType(_buildType($self->lectionary));
+
     my $sunday;
     if ( isSunday( $self->date ) ) {
         $sunday = $self->date;
@@ -100,34 +119,76 @@ sub BUILD {
     }
 
     my $fixedHolyDay = 0;
-    if ( $self->date->mon == 1 || $self->date->mon == 12 ) {
+    if ( $self->lectionary eq 'acna-xian' && ($self->date->mon == 1 || $self->date->mon == 12) ) {
         $fixedHolyDay = _checkFixed( $self->date, $self->lectionary );
     }
 
     $self->_setWeek(
         Date::Lectionary::Day->new(
             'date'       => $sunday,
-            'lectionary' => $self->lectionary, 
+            'lectionary' => $self->tradition, 
             'includeFeasts' => 'no', 
         )->name
     );
 
-    if ($fixedHolyDay) {
-        $self->_setReadings(
-            _buildReadings(
-                "Fixed Holy Days",
-                $self->date->fullmonth . " " . $self->date->mday,
-                $self->lectionary
-            )
-        );
+    if ($self->type eq 'liturgical') {
+            if ($fixedHolyDay) {
+                $self->_setReadings(
+                    _buildReadingsLiturgical(
+                        "Fixed Holy Days",
+                        $self->date->fullmonth . " " . $self->date->mday,
+                        $self->lectionary
+                    )
+                );
+            }
+            else {
+                $self->_setReadings(
+                    _buildReadingsLiturgical(
+                        $self->week, $self->date->fullday, $self->lectionary
+                    )
+                );
+            }
     }
-    else {
-        $self->_setReadings(
-            _buildReadings(
-                $self->week, $self->date->fullday, $self->lectionary
-            )
-        );
+    elsif ($self->type eq 'secular') {
+        $self->_setReadings(undef);
     }
+
+
+}
+
+=head2 _buildType
+
+Private method to determine if the daily lectionary follows the secular calendar or the liturgical calendar.
+
+=cut
+
+sub _buildType {
+    my $lectionary = shift;
+
+    if ($lectionary eq 'acna-xian') {
+        return 'liturgical';
+    }
+    if ($lectionary eq 'acna-sec') {
+        return 'secular';
+    }
+
+    return undef;
+}
+
+=head2 _buildTradition
+
+Private method to determine the Sunday lectionary tradition of the daily lectionary selected. Used to determine the liturgical week the day falls within.
+
+=cut
+
+sub _buildTradition {
+    my $lectionary = shift;
+
+    if ($lectionary eq 'acna-xian' || $lectionary eq 'acna-sec') {
+        return 'acna';
+    }
+
+    return undef;
 }
 
 =head2 _parseLectDB
@@ -181,13 +242,13 @@ sub _checkFixed {
     return 0;
 }
 
-=head2 _buildReadings
+=head2 _buildReadingsLiturgical
 
-Private method that returns an ArrayRef of strings for the lectionary readings associated with the date.
+Private method that returns an ArrayRef of strings for the lectionary readings associated with the date according to the liturgical calendar.
 
 =cut
 
-sub _buildReadings {
+sub _buildReadingsLiturgical {
     my $weekName   = shift;
     my $weekDay    = shift;
     my $lectionary = shift;
@@ -269,7 +330,7 @@ L<http://search.cpan.org/dist/Date-Lectionary-Daily/>
 
 Many thanks to my beautiful wife, Jennifer, and my amazing daughter, Rosemary.  But, above all, SOLI DEO GLORIA!
 
-=head1 LICENSE AND COPYRIGHT
+=head1 LICENSE
 
 Copyright 2017 MICHAEL WAYNE ARNOLD
 

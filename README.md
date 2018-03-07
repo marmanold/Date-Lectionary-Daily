@@ -4,7 +4,7 @@ Date::Lectionary::Daily - Daily Readings for the Christian Lectionary
 
 # VERSION
 
-Version 1.20180205
+Version 1.20180307
 
 # SYNOPSIS
 
@@ -24,6 +24,14 @@ Date::Lectionary::Daily takes a Time::Piece date and returns ACNA readings for m
 
 Constructor for the Date::Lectionary object.  Takes a Time::Piect object, `date`, to create the object.
 
+## \_buildType
+
+Private method to determine if the daily lectionary follows the secular calendar or the liturgical calendar.
+
+## \_buildTradition
+
+Private method to determine the Sunday lectionary tradition of the daily lectionary selected. Used to determine the liturgical week the day falls within.
+
 ## \_parseLectDB
 
 Private method to open and parse the lectionary XML to be used by other methods to XPATH queries.
@@ -32,9 +40,9 @@ Private method to open and parse the lectionary XML to be used by other methods 
 
 Private method to determine if the day given is a fixed holiday rather than a standard day.
 
-## \_buildReadings
+## \_buildReadingsLiturgical
 
-Private method that returns an ArrayRef of strings for the lectionary readings associated with the date.
+Private method that returns an ArrayRef of strings for the lectionary readings associated with the date according to the liturgical calendar.
 
 # AUTHOR
 
@@ -74,7 +82,7 @@ You can also look for information at:
 
 Many thanks to my beautiful wife, Jennifer, and my amazing daughter, Rosemary.  But, above all, SOLI DEO GLORIA!
 
-# LICENSE AND COPYRIGHT
+# LICENSE
 
 Copyright 2017 MICHAEL WAYNE ARNOLD
 
