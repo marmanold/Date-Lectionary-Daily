@@ -27,7 +27,8 @@ WriteMakefile(
     },
     PREREQ_PM => {
         'Carp'                         => '1.38',
-        'Try::Tiny'                    => '0.30',
+        'Try::Tiny::Tiny'              => '0.001',
+        'Try::Catch'                   => '1.1.0',
         'Time::Piece'                  => '1.3204',
         'Time::Seconds'                => '1.3204',
         'Moose'                        => '2.2010',

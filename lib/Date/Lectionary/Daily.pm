@@ -4,9 +4,11 @@ use v5.22;
 use strict;
 use warnings;
 
+use Try::Tiny::Tiny;
+
 use Moose;
 use Carp;
-use Try::Tiny;
+use Try::Catch;
 use XML::LibXML;
 use File::Share ':all';
 use Time::Piece;
