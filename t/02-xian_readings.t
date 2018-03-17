@@ -10,7 +10,7 @@ use Time::Piece;
 use Date::Lectionary::Daily;
 
 my $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2017-03-11", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2017-03-11", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{1},
     'Exodus 1:1-14, (15-21); 1:22-2:10',
@@ -18,7 +18,7 @@ is(
 );
 
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2017-03-11", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2017-03-11", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{2},
     'Colossians 1:21-2:7',
@@ -27,7 +27,7 @@ is(
 
 #Lectionary Week: The Sixth Sunday of Epiphany -- Day: Thursday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2025-2-20", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2025-2-20", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{1},
     'Baruch 4:36-5:end',
@@ -36,7 +36,7 @@ is(
 
 #Lectionary Week: Sunday Closest to October 26 -- Day: Sunday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2016-10-23", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2016-10-23", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{2},
     'Matthew 18:1-20',
@@ -45,7 +45,7 @@ is(
 
 #Lectionary Week: The Sunday after Ascension Day -- Day: Thursday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2024-5-16", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2024-5-16", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{1},
     'Judges 11:29-12:7',
@@ -54,7 +54,7 @@ is(
 
 #Lectionary Week: Easter Day -- Day: Tuesday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2023-4-11", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2023-4-11", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{2},
     '1 Peter 1:1-12',
@@ -63,7 +63,7 @@ is(
 
 #Lectionary Week: Sunday Closest to September 28 -- Day: Monday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2017-10-2", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2017-10-2", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{2},
     '1 Timothy 1:1-17',
@@ -72,7 +72,7 @@ is(
 
 #Lectionary Week: The Second Sunday in Advent -- Day: Sunday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2025-12-7", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2025-12-7", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{1},
     'Isaiah 5:(17-30); 5:18-end',
@@ -81,7 +81,7 @@ is(
 
 #Lectionary Week: Sunday Closest to June 29 -- Day: Friday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2025-7-4", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2025-7-4", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{2},
     'Romans 14',
@@ -90,7 +90,7 @@ is(
 
 #Lectionary Week: Sunday Closest to September 14 -- Day: Tuesday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2024-9-17", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2024-9-17", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{2},
     'John 18:1-27',
@@ -99,7 +99,7 @@ is(
 
 #Lectionary Week: Sunday Closest to August 17 -- Day: Thursday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2016-8-18", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2016-8-18", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{1},
     '2 Kings 18:1-8, (9-12)',
@@ -108,7 +108,7 @@ is(
 
 #Lectionary Week: The Second Sunday of Christmas -- Day: Monday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2024-1-8", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2024-1-8", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{2},
     'Galatians 1',
@@ -117,7 +117,7 @@ is(
 
 #Lectionary Week: Sunday Closest to August 3 -- Day: Tuesday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2021-8-3", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2021-8-3", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{2},
     'Luke 21:5-end',
@@ -126,7 +126,7 @@ is(
 
 #Lectionary Week: Sunday Closest to October 5 -- Day: Wednesday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2024-10-9", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2024-10-9", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{2},
     'Hebrews 11:17-end',
@@ -135,7 +135,7 @@ is(
 
 #Lectionary Week: Sunday Closest to September 14 -- Day: Thursday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2023-9-21", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2023-9-21", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{2},
     '1 Thessalonians 1',
@@ -144,7 +144,7 @@ is(
 
 #Lectionary Week: Sunday Closest to October 12 -- Day: Tuesday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2025-10-14", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2025-10-14", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{2},
     'James 2:1-13',
@@ -153,7 +153,7 @@ is(
 
 #Lectionary Week: Sunday Closest to November 2 -- Day: Tuesday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2024-11-5", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2024-11-5", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{2},
     'Acts 10:1-23',
@@ -162,7 +162,7 @@ is(
 
 #Lectionary Week: Sunday Closest to August 17 -- Day: Monday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2022-8-15", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2022-8-15", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{2},
     'John 3:1-21',
@@ -171,7 +171,7 @@ is(
 
 #Lectionary Week: The Fourth Sunday in Advent -- Day: Wednesday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2018-12-26", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2018-12-26", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{1},
     '2 Chronicles 24:15-22',
@@ -180,7 +180,7 @@ is(
 
 #Lectionary Week: Sunday Closest to August 24 -- Day: Monday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2017-8-28", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2017-8-28", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{2},
     'Ephesians 2:11-end',
@@ -189,7 +189,7 @@ is(
 
 #Lectionary Week: The Second Sunday of Epiphany -- Day: Saturday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2023-1-21", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2023-1-21", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{1},
     'Habakkuk 1',
@@ -198,7 +198,7 @@ is(
 
 #Lectionary Week: Sunday Closest to October 5 -- Day: Sunday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2019-10-6", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2019-10-6", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{1},
     'Jonah 3-4',
@@ -207,7 +207,7 @@ is(
 
 #Lectionary Week: Sunday Closest to September 7 -- Day: Saturday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2020-9-12", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2020-9-12", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{2},
     'Colossians 2:20-3:11',
@@ -216,7 +216,7 @@ is(
 
 #Lectionary Week: Sunday Closest to September 28 -- Day: Wednesday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2024-10-2", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2024-10-2", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{2},
     '1 Timothy 3',
@@ -225,7 +225,7 @@ is(
 
 #Lectionary Week: Sunday Closest to August 24 -- Day: Saturday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2025-8-30", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2025-8-30", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{1},
     'Jeremiah 27:2-end',
@@ -234,7 +234,7 @@ is(
 
 #Lectionary Week: The Fifth Sunday in Lent -- Day: Thursday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2024-3-21", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2024-3-21", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{2},
     '2 Timothy 2',
@@ -243,7 +243,7 @@ is(
 
 #Lectionary Week: The First Sunday in Lent -- Day: Thursday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2016-2-18", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2016-2-18", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{1},
     'Genesis 47:13-end',
@@ -252,7 +252,7 @@ is(
 
 #Lectionary Week: The Fourth Sunday of Easter -- Day: Tuesday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2018-4-24", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2018-4-24", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{2},
     'Acts 16:6-end',
@@ -261,7 +261,7 @@ is(
 
 #Lectionary Week: Sunday Closest to August 31 -- Day: Thursday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2023-9-7", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2023-9-7", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{2},
     'Philippians 1:12-end',
@@ -270,7 +270,7 @@ is(
 
 #Lectionary Week: Sunday Closest to November 16 -- Day: Sunday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2025-11-16", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2025-11-16", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{2},
     'Luke 20:1-19',
@@ -279,7 +279,7 @@ is(
 
 #Lectionary Week: Sunday Closest to July 6 -- Day: Friday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2016-7-8", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2016-7-8", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{1},
     '2 Samuel 2:1-3:1',
@@ -288,7 +288,7 @@ is(
 
 #Lectionary Week: Sunday Closest to July 6 -- Day: Sunday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2020-7-5", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2020-7-5", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{2},
     'Acts 8:4-17',
@@ -297,7 +297,7 @@ is(
 
 #Lectionary Week: The First Sunday in Advent -- Day: Saturday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2025-12-6", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2025-12-6", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{2},
     'Revelation 11',
@@ -306,7 +306,7 @@ is(
 
 #Lectionary Week: The Second Sunday of Christmas -- Day: Tuesday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2025-1-7", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2025-1-7", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{2},
     'Matthew 6:1-18',
@@ -315,7 +315,7 @@ is(
 
 #Lectionary Week: The First Sunday in Advent -- Day: Monday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2017-12-4", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2017-12-4", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{2},
     'Mark 1:1-20',
@@ -324,7 +324,7 @@ is(
 
 #Lectionary Week: Sunday Closest to October 26 -- Day: Tuesday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2024-10-29", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2024-10-29", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{1},
     '1 Maccabees 2:1-28',
@@ -333,7 +333,7 @@ is(
 
 #Lectionary Week: The Fourth Sunday in Lent -- Day: Tuesday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2022-3-29", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2022-3-29", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{1},
     'Exodus (27); 28:1-4, (5-28), 29-43',
@@ -342,7 +342,7 @@ is(
 
 #Lectionary Week: The First Sunday in Lent -- Day: Wednesday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2019-3-13", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2019-3-13", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{1},
     'Genesis 46:26-47:12',
@@ -351,7 +351,7 @@ is(
 
 #Lectionary Week: Sunday Closest to November 9 -- Day: Friday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2020-11-13", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2020-11-13", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{2},
     'Acts 20:1-16',
@@ -360,7 +360,7 @@ is(
 
 #Lectionary Week: Easter Day -- Day: Saturday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2018-4-7", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2018-4-7", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{1},
     'Jeremiah 31:1-14',
@@ -369,7 +369,7 @@ is(
 
 #Lectionary Week: The Third Sunday in Advent -- Day: Wednesday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2016-12-14", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2016-12-14", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{2},
     'Revelation 20',
@@ -378,7 +378,7 @@ is(
 
 #Lectionary Week: The Fifth Sunday of Epiphany -- Day: Monday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2019-2-11", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2019-2-11", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{1},
     'Tobit 4:5-19',
@@ -387,7 +387,7 @@ is(
 
 #Lectionary Week: Sunday Closest to August 24 -- Day: Wednesday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2017-8-30", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2017-8-30", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{2},
     'John 6:41-end',
@@ -396,7 +396,7 @@ is(
 
 #Lectionary Week: Sunday Closest to November 16 -- Day: Monday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2018-11-19", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2018-11-19", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{2},
     'Acts 21:17-36',
@@ -405,7 +405,7 @@ is(
 
 #Lectionary Week: The Second Sunday of Epiphany -- Day: Friday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2019-1-25", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2019-1-25", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{2},
     '1 Corinthians 15:1-34',
@@ -414,7 +414,7 @@ is(
 
 #Lectionary Week: Sunday Closest to July 20 -- Day: Friday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2016-7-22", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2016-7-22", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{2},
     '1 Corinthians 14:20-end',
@@ -423,7 +423,7 @@ is(
 
 #Lectionary Week: Sunday Closest to July 13 -- Day: Tuesday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2019-7-16", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2019-7-16", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{2},
     '1 Corinthians 6',
@@ -432,7 +432,7 @@ is(
 
 #Lectionary Week: Easter Day -- Day: Friday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2019-4-26", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2019-4-26", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{1},
     'Song of Solomon 6:1-7:10',
@@ -441,7 +441,7 @@ is(
 
 #Lectionary Week: Sunday Closest to November 2 -- Day: Sunday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2018-11-4", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2018-11-4", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{2},
     'Matthew 21:12-32',
@@ -450,7 +450,7 @@ is(
 
 #Lectionary Week: The Fifth Sunday in Lent -- Day: Tuesday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2019-4-9", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2019-4-9", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{2},
     'John 11:1-44',
@@ -459,7 +459,7 @@ is(
 
 #Lectionary Week: The Transfiguration -- Day: Tuesday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2017-8-9", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2017-8-9", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{2},
     '2 Corinthians 7:2-end',
@@ -468,7 +468,7 @@ is(
 
 #Lectionary Week: Christ the King -- Day: Monday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2017-11-27", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2017-11-27", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{1},
     'Wisdom 2',
@@ -477,7 +477,7 @@ is(
 
 #Lectionary Week: The Second to Last Sunday after Epiphany: Monday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2018-02-05", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2018-02-05", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{evening}->{2},
     'Romans 7',
@@ -486,7 +486,7 @@ is(
 
 #Lectionary Week: The Last Sunday after Epiphany: Tuesday
 $testReading = Date::Lectionary::Daily->new(
-    'date' => Time::Piece->strptime( "2018-02-13", "%Y-%m-%d" ) );
+    'date' => Time::Piece->strptime( "2018-02-13", "%Y-%m-%d" ), 'lectionary' => 'acna-xian' );
 is(
     $testReading->readings->{morning}->{1},
     'Genesis 32:3-30, (31-32)',

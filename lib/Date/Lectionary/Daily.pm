@@ -33,8 +33,11 @@ Version 1.20180316
     use Time::Piece;
     use Date::Lectionary::Daily;
 
-    #Simple case defaulting to the ACNA Liturgical Daily Lectionary
-    my $dailyReading = Date::Lectionary::Daily->new('date' => Time::Piece->strptime("2017-12-24", "%Y-%m-%d"));
+    #Using the old ACNA Liturgical Daily Lectionary
+    my $dailyReading = Date::Lectionary::Daily->new(
+        'date' => Time::Piece->strptime("2017-12-24", "%Y-%m-%d"), 
+        'lectionary' => 'acna-xian'
+    );
     say $dailyReading->readings->{evening}->{1}; #First lesson for evening prayer, Isaiah 51
 
     #Using the new ACNA Secular/Civil Daily Lectionary
@@ -57,6 +60,8 @@ The Time::Piece object date of the day you woudl like the lessons for.
 =head3 lectionary
 
 One of two choices `acna-sec` for the new secular calendar based ACNA daily lectionary or `acna-xian` for the previous liturgically-based ACNA daily lectionary.
+
+If lectionary is not given at construction, the ACNA secular daily lectionary — `acna-sec` — will be used.
 
 =head2 ATTRIBUTES
 
@@ -116,7 +121,7 @@ has 'day' => (
 has 'lectionary' => (
     is      => 'ro',
     isa     => 'DailyLectionary',
-    default => 'acna-xian',
+    default => 'acna-sec',
 );
 
 has 'tradition' => (
