@@ -79,7 +79,7 @@
          "web" : "https://github.com/marmanold/Date-Lectionary-Daily"
       }
    },
-   "version" : "1.20180307",
+   "version" : "1.20180316",
    "x_serialization_backend" : "JSON::PP version 2.97001",
    "x_twitter" : "https://www.twitter.com/marmanold/"
 }

@@ -2,7 +2,7 @@
 <daily-lectionary name="acna-sec" tradition="acna" type="secular">
     <day date="01-01">
         <lesson order="1" service="morning">Genesis 1</lesson>
-        <lesson order="2" service="morning">John 1.1-28</lesson>
+        <lesson order="2" service="morning">John 1:1-28</lesson>
         <lesson order="1" service="evening">Genesis 2</lesson>
         <lesson order="2" service="evening">Galatians 1</lesson>
     </day>
@@ -2108,31 +2108,31 @@
     </day>
     <day date="12-17">
         <lesson order="1" service="morning">Isaiah 37</lesson>
-        <lesson order="2" service="morning">Revelation  19</lesson>
+        <lesson order="2" service="morning">Revelation 19</lesson>
         <lesson order="1" service="evening">Isaiah 38</lesson>
         <lesson order="2" service="evening">Luke 17:20-end</lesson>
     </day>
     <day date="12-18">
         <lesson order="1" service="morning">Isaiah 39</lesson>
-        <lesson order="2" service="morning">Revelation  20</lesson>
+        <lesson order="2" service="morning">Revelation 20</lesson>
         <lesson order="1" service="evening">Isaiah 40</lesson>
         <lesson order="2" service="evening">Luke 18:1-30</lesson>
     </day>
     <day date="12-19">
         <lesson order="1" service="morning">Isaiah 41</lesson>
-        <lesson order="2" service="morning">Revelation  21:1-14</lesson>
+        <lesson order="2" service="morning">Revelation 21:1-14</lesson>
         <lesson order="1" service="evening">Isaiah 42</lesson>
         <lesson order="2" service="evening">Luke 18:31—19:10</lesson>
     </day>
     <day date="12-20">
         <lesson order="1" service="morning">Isaiah 43</lesson>
-        <lesson order="2" service="morning">Revelation  21:15—22:5</lesson>
+        <lesson order="2" service="morning">Revelation 21:15—22:5</lesson>
         <lesson order="1" service="evening">Isaiah 44</lesson>
         <lesson order="2" service="evening">Luke 19:11-28</lesson>
     </day>
     <day date="12-21">
         <lesson order="1" service="morning">Isaiah 45</lesson>
-        <lesson order="2" service="morning">Revelation  22:6-end</lesson>
+        <lesson order="2" service="morning">Revelation 22:6-end</lesson>
         <lesson order="1" service="evening">Isaiah 46</lesson>
         <lesson order="2" service="evening">Luke 19:29-end</lesson>
     </day>

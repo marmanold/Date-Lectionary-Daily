@@ -4,19 +4,59 @@ Date::Lectionary::Daily - Daily Readings for the Christian Lectionary
 
 # VERSION
 
-Version 1.20180307
+Version 1.20180316
 
 # SYNOPSIS
 
     use Time::Piece;
     use Date::Lectionary::Daily;
 
+    #Simple case defaulting to the ACNA Liturgical Daily Lectionary
     my $dailyReading = Date::Lectionary::Daily->new('date' => Time::Piece->strptime("2017-12-24", "%Y-%m-%d"));
-    say $dailyReading->readings->{evening}->{1}; #First lesson for evening prayer
+    say $dailyReading->readings->{evening}->{1}; #First lesson for evening prayer, Isaiah 51
+
+    #Using the new ACNA Secular/Civil Daily Lectionary
+    my $dailyNewReading = Date::Lectionary::Daily->new( 
+        'date' => Time::Piece->strptime( "2018-03-12", "%Y-%m-%d" ), 
+        'lectionary' => 'acna-sec' 
+    );
+    say $dailyNewReading->readings->{morning}->{2}; #Second lesson for morning prayer, Matthew 5
 
 # DESCRIPTION
 
 Date::Lectionary::Daily takes a Time::Piece date and returns readings for morning and evening prayer for that date.
+
+## CONSTRUCTOR ATTRIBUTES
+
+### date
+
+The Time::Piece object date of the day you woudl like the lessons for.
+
+### lectionary
+
+One of two choices \`acna-sec\` for the new secular calendar based ACNA daily lectionary or \`acna-xian\` for the previous liturgically-based ACNA daily lectionary.
+
+## ATTRIBUTES
+
+### week
+
+The name of the liturgical week in the lectionary; e.g. \`The First Sunday in Lent\`.
+
+### day
+
+The name of the day of the week; e.g. \`Sunday\`.
+
+### tradition
+
+Presently only returns \`acna\`.  Future version of the module may include daily lectionary from other traditions.
+
+### type
+
+Returns \`secular\` for daily lectionaries based on the secular/civil calendar and \`liturgical\` for daily lectionaries based on the liturgical calendar.
+
+### readings
+
+A hasref of the readings for the day.
 
 # SUBROUTINES/METHODS
 
@@ -43,6 +83,10 @@ Private method to determine if the day given is a fixed holiday rather than a st
 ## \_buildReadingsLiturgical
 
 Private method that returns an ArrayRef of strings for the lectionary readings associated with the date according to the liturgical calendar.
+
+## \_buildReadingsSecular
+
+Private method that returns an ArrayRef of strings for the lectionary readings associated with the date according to the secular calendar.
 
 # AUTHOR
 
@@ -80,7 +124,7 @@ You can also look for information at:
 
 # ACKNOWLEDGEMENTS
 
-Many thanks to my beautiful wife, Jennifer, and my amazing daughter, Rosemary.  But, above all, SOLI DEO GLORIA!
+Many thanks to my beautiful wife, Jennifer, my amazing daughter, Rosemary, and my sweet  son, Oliver.  But, above all, SOLI DEO GLORIA!
 
 # LICENSE
 

@@ -56,7 +56,7 @@ WriteMakefile(
         provides => {
             'Date::Lectionary::Daily' => {
                 file    => 'lib/Date/Lectionary/Daily.pm',
-                version => '1.20180307',
+                version => '1.20180316',
             },
         },
         keywords  => [qw/ lectionary rcl acna readings christian liturgical /],

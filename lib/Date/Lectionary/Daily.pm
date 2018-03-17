@@ -24,7 +24,7 @@ Date::Lectionary::Daily - Daily Readings for the Christian Lectionary
 
 =head1 VERSION
 
-Version 1.20180307
+Version 1.20180316
 
 =cut
 
@@ -33,20 +33,60 @@ Version 1.20180307
     use Time::Piece;
     use Date::Lectionary::Daily;
 
+    #Simple case defaulting to the ACNA Liturgical Daily Lectionary
     my $dailyReading = Date::Lectionary::Daily->new('date' => Time::Piece->strptime("2017-12-24", "%Y-%m-%d"));
-    say $dailyReading->readings->{evening}->{1}; #First lesson for evening prayer
+    say $dailyReading->readings->{evening}->{1}; #First lesson for evening prayer, Isaiah 51
+
+    #Using the new ACNA Secular/Civil Daily Lectionary
+    my $dailyNewReading = Date::Lectionary::Daily->new( 
+        'date' => Time::Piece->strptime( "2018-03-12", "%Y-%m-%d" ), 
+        'lectionary' => 'acna-sec' 
+    );
+    say $dailyNewReading->readings->{morning}->{2}; #Second lesson for morning prayer, Matthew 5
 
 =head1 DESCRIPTION
 
 Date::Lectionary::Daily takes a Time::Piece date and returns readings for morning and evening prayer for that date.
 
+=head2 CONSTRUCTOR ATTRIBUTES
+
+=head3 date
+
+The Time::Piece object date of the day you woudl like the lessons for.
+
+=head3 lectionary
+
+One of two choices `acna-sec` for the new secular calendar based ACNA daily lectionary or `acna-xian` for the previous liturgically-based ACNA daily lectionary.
+
+=head2 ATTRIBUTES
+
+=head3 week
+
+The name of the liturgical week in the lectionary; e.g. `The First Sunday in Lent`.
+
+=head3 day
+
+The name of the day of the week; e.g. `Sunday`.
+
+=head3 tradition
+
+Presently only returns `acna`.  Future version of the module may include daily lectionary from other traditions.
+
+=head3 type
+
+Returns `secular` for daily lectionaries based on the secular/civil calendar and `liturgical` for daily lectionaries based on the liturgical calendar.
+
+=head3 readings
+
+A hasref of the readings for the day.
+
 =cut
 
-our $VERSION = '1.20180307';
+our $VERSION = '1.20180316';
 
 enum 'DailyLectionary', [qw(acna-sec acna-xian)];
-enum 'Tradition', [qw(acna)];
-enum 'LectionaryType', [qw(secular liturgical)];
+enum 'Tradition',       [qw(acna)];
+enum 'LectionaryType',  [qw(secular liturgical)];
 no Moose::Util::TypeConstraints;
 
 =head1 SUBROUTINES/METHODS
@@ -80,16 +120,16 @@ has 'lectionary' => (
 );
 
 has 'tradition' => (
-    is => 'ro', 
-    isa => 'Tradition', 
-    writer => '_setTradition', 
+    is       => 'ro',
+    isa      => 'Tradition',
+    writer   => '_setTradition',
     init_arg => undef,
 );
 
 has 'type' => (
-    is => 'ro', 
-    isa => 'LectionaryType', 
-    writer => '_setType', 
+    is       => 'ro',
+    isa      => 'LectionaryType',
+    writer   => '_setType',
     init_arg => undef,
 );
 
@@ -109,8 +149,8 @@ Constructor for the Date::Lectionary object.  Takes a Time::Piect object, C<date
 sub BUILD {
     my $self = shift;
 
-    $self->_setTradition(_buildTradition($self->lectionary));
-    $self->_setType(_buildType($self->lectionary));
+    $self->_setTradition( _buildTradition( $self->lectionary ) );
+    $self->_setType( _buildType( $self->lectionary ) );
 
     my $sunday;
     if ( isSunday( $self->date ) ) {
@@ -121,40 +161,29 @@ sub BUILD {
     }
 
     my $fixedHolyDay = 0;
-    if ( $self->lectionary eq 'acna-xian' && ($self->date->mon == 1 || $self->date->mon == 12) ) {
+    if ( $self->lectionary eq 'acna-xian' && ( $self->date->mon == 1 || $self->date->mon == 12 ) ) {
         $fixedHolyDay = _checkFixed( $self->date, $self->lectionary );
     }
 
     $self->_setWeek(
         Date::Lectionary::Day->new(
-            'date'       => $sunday,
-            'lectionary' => $self->tradition, 
-            'includeFeasts' => 'no', 
+            'date'          => $sunday,
+            'lectionary'    => $self->tradition,
+            'includeFeasts' => 'no',
         )->name
     );
 
-    if ($self->type eq 'liturgical') {
-            if ($fixedHolyDay) {
-                $self->_setReadings(
-                    _buildReadingsLiturgical(
-                        "Fixed Holy Days",
-                        $self->date->fullmonth . " " . $self->date->mday,
-                        $self->lectionary
-                    )
-                );
-            }
-            else {
-                $self->_setReadings(
-                    _buildReadingsLiturgical(
-                        $self->week, $self->date->fullday, $self->lectionary
-                    )
-                );
-            }
+    if ( $self->type eq 'liturgical' ) {
+        if ($fixedHolyDay) {
+            $self->_setReadings( _buildReadingsLiturgical( "Fixed Holy Days", $self->date->fullmonth . " " . $self->date->mday, $self->lectionary ) );
+        }
+        else {
+            $self->_setReadings( _buildReadingsLiturgical( $self->week, $self->date->fullday, $self->lectionary ) );
+        }
     }
-    elsif ($self->type eq 'secular') {
-        $self->_setReadings(undef);
+    elsif ( $self->type eq 'secular' ) {
+        $self->_setReadings( _buildReadingsSecular( $self->week, $self->date, $self->lectionary ) );
     }
-
 
 }
 
@@ -167,10 +196,10 @@ Private method to determine if the daily lectionary follows the secular calendar
 sub _buildType {
     my $lectionary = shift;
 
-    if ($lectionary eq 'acna-xian') {
+    if ( $lectionary eq 'acna-xian' ) {
         return 'liturgical';
     }
-    if ($lectionary eq 'acna-sec') {
+    if ( $lectionary eq 'acna-sec' ) {
         return 'secular';
     }
 
@@ -186,7 +215,7 @@ Private method to determine the Sunday lectionary tradition of the daily lection
 sub _buildTradition {
     my $lectionary = shift;
 
-    if ($lectionary eq 'acna-xian' || $lectionary eq 'acna-sec') {
+    if ( $lectionary eq 'acna-xian' || $lectionary eq 'acna-sec' ) {
         return 'acna';
     }
 
@@ -206,13 +235,11 @@ sub _parseLectDB {
     my $lectDB;
 
     try {
-        my $data_location = dist_file( 'Date-Lectionary-Daily',
-            $lectionary . '_lect_daily.xml' );
+        my $data_location = dist_file( 'Date-Lectionary-Daily', $lectionary . '_lect_daily.xml' );
         $lectDB = $parser->parse_file($data_location);
     }
     catch {
-        carp
-            "The readings database for the $lectionary daily lectionary could not be found or parsed.";
+        carp "The readings database for the $lectionary daily lectionary could not be found or parsed.";
     };
 
     return $lectDB;
@@ -232,10 +259,14 @@ sub _checkFixed {
 
     my $lectDB = _parseLectDB($lectionary);
 
-    my $fixed_xpath
-        = XML::LibXML::XPathExpression->new(
-        "/daily-lectionary/week[\@name=\"Fixed Holy Days\"]/day[\@name=\"$searchDate\"]/lesson"
-        );
+    my $fixed_xpath;
+
+    try {
+        $fixed_xpath = XML::LibXML::XPathExpression->new("/daily-lectionary/week[\@name=\"Fixed Holy Days\"]/day[\@name=\"$searchDate\"]/lesson");
+    }
+    catch {
+        carp "Could not compile the XPath Expression for $searchDate in the $lectionary lectionary.";
+    };
 
     if ( $lectDB->exists($fixed_xpath) ) {
         return 1;
@@ -257,33 +288,85 @@ sub _buildReadingsLiturgical {
 
     my $readings = _parseLectDB($lectionary);
 
-    my $morn1_xpath
-        = XML::LibXML::XPathExpression->new(
-        "/daily-lectionary/week[\@name=\"$weekName\"]/day[\@name=\"$weekDay\"]/lesson[\@service=\"morning\" and \@order=\"1\"]"
-        );
-    my $morn2_xpath
-        = XML::LibXML::XPathExpression->new(
-        "/daily-lectionary/week[\@name=\"$weekName\"]/day[\@name=\"$weekDay\"]/lesson[\@service=\"morning\" and \@order=\"2\"]"
-        );
-    my $eve1_xpath
-        = XML::LibXML::XPathExpression->new(
-        "/daily-lectionary/week[\@name=\"$weekName\"]/day[\@name=\"$weekDay\"]/lesson[\@service=\"evening\" and \@order=\"1\"]"
-        );
-    my $eve2_xpath
-        = XML::LibXML::XPathExpression->new(
-        "/daily-lectionary/week[\@name=\"$weekName\"]/day[\@name=\"$weekDay\"]/lesson[\@service=\"evening\" and \@order=\"2\"]"
-        );
+    my $morn1_xpath;
+    my $morn2_xpath;
+    my $eve1_xpath;
+    my $eve2_xpath;
+    try {
+        $morn1_xpath = XML::LibXML::XPathExpression->new("/daily-lectionary/week[\@name=\"$weekName\"]/day[\@name=\"$weekDay\"]/lesson[\@service=\"morning\" and \@order=\"1\"]");
+        $morn2_xpath = XML::LibXML::XPathExpression->new("/daily-lectionary/week[\@name=\"$weekName\"]/day[\@name=\"$weekDay\"]/lesson[\@service=\"morning\" and \@order=\"2\"]");
+        $eve1_xpath  = XML::LibXML::XPathExpression->new("/daily-lectionary/week[\@name=\"$weekName\"]/day[\@name=\"$weekDay\"]/lesson[\@service=\"evening\" and \@order=\"1\"]");
+        $eve2_xpath  = XML::LibXML::XPathExpression->new("/daily-lectionary/week[\@name=\"$weekName\"]/day[\@name=\"$weekDay\"]/lesson[\@service=\"evening\" and \@order=\"2\"]");
+    }
+    catch {
+        carp "Could not compile the XPath Expression for $weekDay in $weekName in the $lectionary lectionary.";
+    };
 
-    my %readings = (
-        morning => {
-            1 => $readings->find($morn1_xpath)->string_value(),
-            2 => $readings->find($morn2_xpath)->string_value()
-        },
-        evening => {
-            1 => $readings->find($eve1_xpath)->string_value(),
-            2 => $readings->find($eve2_xpath)->string_value()
-        }
-    );
+    my %readings;
+    try {
+        %readings = (
+            morning => {
+                1 => $readings->find($morn1_xpath)->string_value(),
+                2 => $readings->find($morn2_xpath)->string_value()
+            },
+            evening => {
+                1 => $readings->find($eve1_xpath)->string_value(),
+                2 => $readings->find($eve2_xpath)->string_value()
+            }
+        );
+    }
+    catch {
+        carp "The readings for $weekDay in $weekName in the $lectionary lectionary could not be found.";
+    };
+
+    return \%readings;
+}
+
+=head2 _buildReadingsSecular
+
+Private method that returns an ArrayRef of strings for the lectionary readings associated with the date according to the secular calendar.
+
+=cut
+
+sub _buildReadingsSecular {
+    my $weekName   = shift;
+    my $date       = shift;
+    my $lectionary = shift;
+
+    my $readings = _parseLectDB($lectionary);
+
+    my $seekDate = substr( $date->ymd, 5, 5 );
+
+    my $morn1_xpath;
+    my $morn2_xpath;
+    my $eve1_xpath;
+    my $eve2_xpath;
+    try {
+        $morn1_xpath = XML::LibXML::XPathExpression->new("/daily-lectionary/day[\@date=\"$seekDate\"]/lesson[\@service=\"morning\" and \@order=\"1\"]");
+        $morn2_xpath = XML::LibXML::XPathExpression->new("/daily-lectionary/day[\@date=\"$seekDate\"]/lesson[\@service=\"morning\" and \@order=\"2\"]");
+        $eve1_xpath  = XML::LibXML::XPathExpression->new("/daily-lectionary/day[\@date=\"$seekDate\"]/lesson[\@service=\"evening\" and \@order=\"1\"]");
+        $eve2_xpath  = XML::LibXML::XPathExpression->new("/daily-lectionary/day[\@date=\"$seekDate\"]/lesson[\@service=\"evening\" and \@order=\"2\"]");
+    }
+    catch {
+        carp "Could not compile the XPath Expression for $seekDate in $weekName in the $lectionary lectionary.";
+    };
+
+    my %readings;
+    try {
+        %readings = (
+            morning => {
+                1 => $readings->find($morn1_xpath)->string_value(),
+                2 => $readings->find($morn2_xpath)->string_value()
+            },
+            evening => {
+                1 => $readings->find($eve1_xpath)->string_value(),
+                2 => $readings->find($eve2_xpath)->string_value()
+            }
+        );
+    }
+    catch {
+        carp "The readings for $seekDate in $weekName in the $lectionary lectionary could not be found.";
+    };
 
     return \%readings;
 }
@@ -330,7 +413,7 @@ L<http://search.cpan.org/dist/Date-Lectionary-Daily/>
 
 =head1 ACKNOWLEDGEMENTS
 
-Many thanks to my beautiful wife, Jennifer, and my amazing daughter, Rosemary.  But, above all, SOLI DEO GLORIA!
+Many thanks to my beautiful wife, Jennifer, my amazing daughter, Rosemary, and my sweet  son, Oliver.  But, above all, SOLI DEO GLORIA!
 
 =head1 LICENSE
 

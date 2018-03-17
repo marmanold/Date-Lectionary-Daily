@@ -4,7 +4,7 @@ Date::Lectionary::Daily - Daily Readings for the Christian Lectionary
 
 =head1 VERSION
 
-Version 1.20180307
+Version 1.20180316
 
 
 =cut
@@ -14,12 +14,52 @@ Version 1.20180307
     use Time::Piece;
     use Date::Lectionary::Daily;
 
+    #Simple case defaulting to the ACNA Liturgical Daily Lectionary
     my $dailyReading = Date::Lectionary::Daily->new('date' => Time::Piece->strptime("2017-12-24", "%Y-%m-%d"));
-    say $dailyReading->readings->{evening}->{1}; #First lesson for evening prayer
+    say $dailyReading->readings->{evening}->{1}; #First lesson for evening prayer, Isaiah 51
+
+    #Using the new ACNA Secular/Civil Daily Lectionary
+    my $dailyNewReading = Date::Lectionary::Daily->new( 
+        'date' => Time::Piece->strptime( "2018-03-12", "%Y-%m-%d" ), 
+        'lectionary' => 'acna-sec' 
+    );
+    say $dailyNewReading->readings->{morning}->{2}; #Second lesson for morning prayer, Matthew 5
 
 =head1 DESCRIPTION
 
 Date::Lectionary::Daily takes a Time::Piece date and returns readings for morning and evening prayer for that date.
+
+=head2 CONSTRUCTOR ATTRIBUTES
+
+=head3 date
+
+The Time::Piece object date of the day you woudl like the lessons for.
+
+=head3 lectionary
+
+One of two choices `acna-sec` for the new secular calendar based ACNA daily lectionary or `acna-xian` for the previous liturgically-based ACNA daily lectionary.
+
+=head2 ATTRIBUTES
+
+=head3 week
+
+The name of the liturgical week in the lectionary; e.g. `The First Sunday in Lent`.
+
+=head3 day
+
+The name of the day of the week; e.g. `Sunday`.
+
+=head3 tradition
+
+Presently only returns `acna`.  Future version of the module may include daily lectionary from other traditions.
+
+=head3 type
+
+Returns `secular` for daily lectionaries based on the secular/civil calendar and `liturgical` for daily lectionaries based on the liturgical calendar.
+
+=head3 readings
+
+A hasref of the readings for the day.
 
 
 =cut
@@ -71,6 +111,13 @@ Private method that returns an ArrayRef of strings for the lectionary readings a
 
 =cut
 
+=head2 _buildReadingsSecular
+
+Private method that returns an ArrayRef of strings for the lectionary readings associated with the date according to the secular calendar.
+
+
+=cut
+
 =head1 AUTHOR
 
 Michael Wayne Arnold, C<< <marmanold at cpan.org> >>
@@ -113,7 +160,7 @@ L<http://search.cpan.org/dist/Date-Lectionary-Daily/>
 
 =head1 ACKNOWLEDGEMENTS
 
-Many thanks to my beautiful wife, Jennifer, and my amazing daughter, Rosemary.  But, above all, SOLI DEO GLORIA!
+Many thanks to my beautiful wife, Jennifer, my amazing daughter, Rosemary, and my sweet  son, Oliver.  But, above all, SOLI DEO GLORIA!
 
 =head1 LICENSE
 
