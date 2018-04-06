@@ -15,6 +15,7 @@ t/02-readings.t
 t/02-xian_readings.t
 t/03-fixed_readings.t
 t/04-secular_readings.t
-t/pod-coverage.t
-t/pod.t
-xt/boilerplate.t
+xt/01-pod.t
+xt/02-pod-coverage.t
+xt/03-minimum_perl_version.t
+xt/04-kwalitee.t

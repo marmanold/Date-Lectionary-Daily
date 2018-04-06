@@ -1,3 +1,4 @@
+=encoding utf8
 =head1 NAME
 
 Date::Lectionary::Daily - Daily Readings for the Christian Lectionary

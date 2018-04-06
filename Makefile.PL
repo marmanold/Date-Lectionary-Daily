@@ -24,6 +24,11 @@ WriteMakefile(
         'Test::CheckManifest' => '1.33',
         'Test::Exception'     => '0.43',
         'Pod::Markdown'       => '3.005',
+        'Test::Pod' => '1.51', 
+        'Test::Pod::Coverage' => '1.10', 
+        'Test::MinimumVersion' => '0.101082', 
+        'Test::Kwalitee::Extra' => '0.4.0', 
+        'Test::Kwalitee' => '1.27', 
     },
     PREREQ_PM => {
         'Carp'                         => '1.38',

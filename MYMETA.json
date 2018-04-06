@@ -4,7 +4,7 @@
       "Michael Wayne Arnold <marmanold@cpan.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "ExtUtils::MakeMaker version 7.32, CPAN::Meta::Converter version 2.150010",
+   "generated_by" : "ExtUtils::MakeMaker version 7.34, CPAN::Meta::Converter version 2.150010",
    "keywords" : [
       "lectionary",
       "rcl",
@@ -33,7 +33,10 @@
             "Pod::Markdown" : "3.005",
             "Test::CheckManifest" : "1.33",
             "Test::Exception" : "0.43",
-            "Test::More" : "1.302130"
+            "Test::MinimumVersion" : "0.101082",
+            "Test::More" : "1.302130",
+            "Test::Pod" : "1.51",
+            "Test::Pod::Coverage" : "1.10"
          }
       },
       "configure" : {

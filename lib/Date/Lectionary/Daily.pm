@@ -18,6 +18,7 @@ use namespace::autoclean;
 use Moose::Util::TypeConstraints;
 use MooseX::StrictConstructor;
 
+=encoding utf8
 =head1 NAME
 
 Date::Lectionary::Daily - Daily Readings for the Christian Lectionary
@@ -420,7 +421,7 @@ L<http://search.cpan.org/dist/Date-Lectionary-Daily/>
 
 Many thanks to my beautiful wife, Jennifer, my amazing daughter, Rosemary, and my sweet  son, Oliver.  But, above all, SOLI DEO GLORIA!
 
-=head1 LICENSE
+=head1 LICENSE BSD-2-Clause 
 
 Copyright 2017-2018 MICHAEL WAYNE ARNOLD
 
