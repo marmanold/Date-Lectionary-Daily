@@ -18,6 +18,8 @@ use namespace::autoclean;
 use Moose::Util::TypeConstraints;
 use MooseX::StrictConstructor;
 
+use version; our $VERSION = version->declare("v1.20180410");
+
 =encoding utf8
 =head1 NAME
 
@@ -25,7 +27,7 @@ Date::Lectionary::Daily - Daily Readings for the Christian Lectionary
 
 =head1 VERSION
 
-Version 1.20180316
+Version 1.20180410
 
 =cut
 
@@ -87,8 +89,6 @@ Returns `secular` for daily lectionaries based on the secular/civil calendar and
 A hasref of the readings for the day.
 
 =cut
-
-our $VERSION = '1.20180316';
 
 enum 'DailyLectionary', [qw(acna-sec acna-xian)];
 enum 'Tradition',       [qw(acna)];

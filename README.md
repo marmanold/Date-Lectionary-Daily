@@ -2,7 +2,7 @@ Date::Lectionary::Daily - Daily Readings for the Christian Lectionary
 
 # VERSION
 
-Version 1.20180316
+Version 1.20180410
 
 # SYNOPSIS
 
@@ -129,7 +129,7 @@ You can also look for information at:
 
 Many thanks to my beautiful wife, Jennifer, my amazing daughter, Rosemary, and my sweet  son, Oliver.  But, above all, SOLI DEO GLORIA!
 
-# LICENSE
+# LICENSE BSD-2-Clause 
 
 Copyright 2017-2018 MICHAEL WAYNE ARNOLD
 

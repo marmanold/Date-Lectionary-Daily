@@ -1,3 +1,6 @@
+use v5.22;
+use strict;
+use warnings;
 use Test::More;
 eval 'use Test::DistManifest';
 if ($@) {
