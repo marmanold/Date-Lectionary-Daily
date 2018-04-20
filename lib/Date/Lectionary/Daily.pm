@@ -425,7 +425,7 @@ L<http://search.cpan.org/dist/Date-Lectionary-Daily/>
 
 Many thanks to my beautiful wife, Jennifer, my amazing daughter, Rosemary, and my sweet son, Oliver.  But, above all, SOLI DEO GLORIA!
 
-=head1 LICENSE BSD-2-Clause 
+=head1 LICENSE
 
 Copyright 2017-2018 MICHAEL WAYNE ARNOLD
 
