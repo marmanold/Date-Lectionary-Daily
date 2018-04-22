@@ -4,8 +4,6 @@ use v5.22;
 use strict;
 use warnings;
 
-use Try::Tiny::Tiny;
-
 use Moose;
 use Carp;
 use Try::Catch;
@@ -18,7 +16,7 @@ use namespace::autoclean;
 use Moose::Util::TypeConstraints;
 use MooseX::StrictConstructor;
 
-use version; our $VERSION = version->declare("v1.20180418");
+use version; our $VERSION = version->declare("v1.20180422");
 
 =encoding utf8
 =head1 NAME
@@ -27,7 +25,7 @@ Date::Lectionary::Daily - Daily Readings for the Christian Lectionary
 
 =head1 VERSION
 
-Version 1.20180418
+Version 1.20180422
 
 =cut
 
