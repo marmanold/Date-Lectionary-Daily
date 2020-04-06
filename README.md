@@ -2,7 +2,7 @@ Date::Lectionary::Daily - Daily Readings for the Christian Lectionary
 
 # VERSION
 
-Version 1.20200102
+Version 1.20200322
 
 # SYNOPSIS
 
@@ -35,9 +35,9 @@ The Time::Piece object date of the day you woudl like the lessons for.
 
 ### lectionary
 
-One of two choices \`acna-sec\` for the new secular calendar based ACNA daily lectionary or \`acna-xian\` for the previous liturgically-based ACNA daily lectionary.
+One of three choices \`acna-sec\` for the ACNA BCP 2019 daily lectionary, \`acna-xian\` for the previous liturgically-based ACNA daily lectionary, or \`tec\` for the daily lectionary from BCP 1979.
 
-If lectionary is not given at construction, the ACNA secular daily lectionary — \`acna-sec\` — will be used.
+If lectionary is not given at construction, the ACNA BCP 2019 daily lectionary — \`acna-sec\` — will be used.
 
 ## ATTRIBUTES
 
@@ -82,6 +82,14 @@ Private method to open and parse the lectionary XML to be used by other methods 
 ## \_checkFixed
 
 Private method to determine if the day given is a fixed holiday rather than a standard day.
+
+## \_determineTecYear
+
+Private method to determines if we are in Year 1 or 2 of the TEC BCP 1979 daily lectionary based on whether the year of the first Sunday in Advent is even (year 1) or odd (year 2)
+
+## \_buildReadingsTec
+
+Private method that returns an ArrayRef of strings for the lectionary readings associated with the date according to the liturgical calendar for the TEC daily lectionary.
 
 ## \_buildReadingsLiturgical
 

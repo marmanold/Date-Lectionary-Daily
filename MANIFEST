@@ -1,4 +1,4 @@
-Changes
+CHANGES
 INSTALL
 lib/Date/Lectionary/Daily.pm
 LICENSE
@@ -9,6 +9,7 @@ README.md
 README.pod
 share/acna-sec_lect_daily.xml
 share/acna-xian_lect_daily.xml
+share/tec_lect_daily.xml
 t/00-load.t
 t/01-week.t
 t/02-xian_readings.t

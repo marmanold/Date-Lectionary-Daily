@@ -16,7 +16,7 @@ use namespace::autoclean;
 use Moose::Util::TypeConstraints;
 use MooseX::StrictConstructor;
 
-use version; our $VERSION = version->declare("v1.20200102");
+use version; our $VERSION = version->declare("v1.20200322");
 
 =encoding utf8
 =head1 NAME
@@ -25,7 +25,7 @@ Date::Lectionary::Daily - Daily Readings for the Christian Lectionary
 
 =head1 VERSION
 
-Version 1.20200102
+Version 1.20200322
 
 =cut
 
@@ -60,9 +60,9 @@ The Time::Piece object date of the day you woudl like the lessons for.
 
 =head3 lectionary
 
-One of two choices `acna-sec` for the new secular calendar based ACNA daily lectionary or `acna-xian` for the previous liturgically-based ACNA daily lectionary.
+One of three choices `acna-sec` for the ACNA BCP 2019 daily lectionary, `acna-xian` for the previous liturgically-based ACNA daily lectionary, or `tec` for the daily lectionary from BCP 1979.
 
-If lectionary is not given at construction, the ACNA secular daily lectionary — `acna-sec` — will be used.
+If lectionary is not given at construction, the ACNA BCP 2019 daily lectionary — `acna-sec` — will be used.
 
 =head2 ATTRIBUTES
 
@@ -88,8 +88,8 @@ A hasref of the readings for the day.
 
 =cut
 
-enum 'DailyLectionary', [qw(acna-sec acna-xian)];
-enum 'Tradition',       [qw(acna)];
+enum 'DailyLectionary', [qw(acna-sec acna-xian tec)];
+enum 'Tradition',       [qw(acna tec)];
 enum 'LectionaryType',  [qw(secular liturgical)];
 no Moose::Util::TypeConstraints;
 
@@ -165,7 +165,9 @@ sub BUILD {
     }
 
     my $fixedHolyDay = 0;
-    if ( $self->lectionary eq 'acna-xian' && ( $self->date->mon == 1 || $self->date->mon == 12 ) ) {
+    if (   ( $self->lectionary eq 'acna-xian' || $self->lectionary eq 'tec' )
+        && ( $self->date->mon == 1 || $self->date->mon == 12 ) )
+    {
         $fixedHolyDay = _checkFixed( $self->date, $self->lectionary );
     }
 
@@ -178,15 +180,51 @@ sub BUILD {
     );
 
     if ( $self->type eq 'liturgical' ) {
-        if ($fixedHolyDay) {
-            $self->_setReadings( _buildReadingsLiturgical( "Fixed Holy Days", $self->date->fullmonth . " " . $self->date->mday, $self->lectionary ) );
+        if ( $self->lectionary eq 'tec' ) {
+            if ($fixedHolyDay) {
+                $self->_setReadings(
+                    _buildReadingsTec(
+                        "Fixed Holy Days",
+                        $self->date->fullmonth . " " . $self->date->mday,
+                        $self->lectionary
+                    )
+                );
+            }
+            else {
+                $self->_setReadings(
+                    _buildReadingsTec(
+                        $self->week, $self->date->fullday,
+                        $self->lectionary
+                    )
+                );
+            }
         }
         else {
-            $self->_setReadings( _buildReadingsLiturgical( $self->week, $self->date->fullday, $self->lectionary ) );
+            if ($fixedHolyDay) {
+                $self->_setReadings(
+                    _buildReadingsLiturgical(
+                        "Fixed Holy Days",
+                        $self->date->fullmonth . " " . $self->date->mday,
+                        $self->lectionary
+                    )
+                );
+            }
+            else {
+                $self->_setReadings(
+                    _buildReadingsLiturgical(
+                        $self->week, $self->date->fullday,
+                        $self->lectionary
+                    )
+                );
+            }
         }
     }
     elsif ( $self->type eq 'secular' ) {
-        $self->_setReadings( _buildReadingsSecular( $self->week, $self->date, $self->lectionary ) );
+        $self->_setReadings(
+            _buildReadingsSecular(
+                $self->week, $self->date, $self->lectionary
+            )
+        );
     }
 
 }
@@ -200,7 +238,7 @@ Private method to determine if the daily lectionary follows the secular calendar
 sub _buildType {
     my $lectionary = shift;
 
-    if ( $lectionary eq 'acna-xian' ) {
+    if ( $lectionary eq 'acna-xian' || $lectionary eq 'tec' ) {
         return 'liturgical';
     }
     if ( $lectionary eq 'acna-sec' ) {
@@ -222,6 +260,9 @@ sub _buildTradition {
     if ( $lectionary eq 'acna-xian' || $lectionary eq 'acna-sec' ) {
         return 'acna';
     }
+    if ( $lectionary eq 'tec' ) {
+        return 'acna';    #Using ACNA week names to keep things simple.
+    }
 
     return undef;
 }
@@ -239,11 +280,13 @@ sub _parseLectDB {
     my $lectDB;
 
     try {
-        my $data_location = dist_file( 'Date-Lectionary-Daily', $lectionary . '_lect_daily.xml' );
+        my $data_location =
+          dist_file( 'Date-Lectionary-Daily', $lectionary . '_lect_daily.xml' );
         $lectDB = $parser->parse_file($data_location);
     }
     catch {
-        carp "The readings database for the $lectionary daily lectionary could not be found or parsed.";
+        carp
+"The readings database for the $lectionary daily lectionary could not be found or parsed.";
     };
 
     return $lectDB;
@@ -260,16 +303,28 @@ sub _checkFixed {
     my $lectionary = shift;
 
     my $searchDate = $date->fullmonth . " " . $date->mday;
+    my $yearNum = _determineTecYear($date);
 
     my $lectDB = _parseLectDB($lectionary);
 
     my $fixed_xpath;
 
     try {
-        $fixed_xpath = XML::LibXML::XPathExpression->new("/daily-lectionary/week[\@name=\"Fixed Holy Days\"]/day[\@name=\"$searchDate\"]/lesson");
+        if ( $lectionary eq 'tec' ) {
+            $fixed_xpath = XML::LibXML::XPathExpression->new(
+"/daily-lectionary/year[\@name=\"$yearNum\"]/week[\@name=\"Fixed Holy Days\"]/day[\@name=\"$searchDate\"]/lesson"
+            );
+        }
+        else {
+            $fixed_xpath = XML::LibXML::XPathExpression->new(
+"/daily-lectionary/week[\@name=\"Fixed Holy Days\"]/day[\@name=\"$searchDate\"]/lesson"
+            );
+        }
+
     }
     catch {
-        carp "Could not compile the XPath Expression for $searchDate in the $lectionary lectionary.";
+        carp
+"Could not compile the XPath Expression for $searchDate in the $lectionary lectionary.";
     };
 
     if ( $lectDB->exists($fixed_xpath) ) {
@@ -277,6 +332,78 @@ sub _checkFixed {
     }
 
     return 0;
+}
+
+=head2 _determineTecYear
+
+Private method to determines if we are in Year 1 or 2 of the TEC BCP 1979 daily lectionary based on whether the year of the first Sunday in Advent is even (year 1) or odd (year 2)
+
+=cut
+
+sub _determineTecYear {
+    my $date = shift;
+
+    my $advent = Date::Advent->new(date => $date);
+
+    if (($advent->firstSunday->year % 2) == 1) {
+        return 1;
+    }
+    else {
+        return 2;
+    }
+}
+
+=head2 _buildReadingsTec
+
+Private method that returns an ArrayRef of strings for the lectionary readings associated with the date according to the liturgical calendar for the TEC daily lectionary.
+
+=cut
+
+sub _buildReadingsTec {
+    my $weekName   = shift;
+    my $weekDay    = shift;
+    my $lectionary = shift;
+
+    my $readings = _parseLectDB($lectionary);
+
+    my $lesson1_xpath;
+    my $lesson2_xpath;
+    my $lesson3_xpath;
+
+    my $yearNum = _determineTecYear($weekDay);
+
+    try {
+        $lesson1_xpath = XML::LibXML::XPathExpression->new(
+"/daily-lectionary/year[\@name=\"$yearNum\"]/week[\@name=\"$weekName\"]/day[\@name=\"$weekDay\"]/lesson[\@service=\"daily\" and \@order=\"1\"]"
+        );
+        $lesson2_xpath = XML::LibXML::XPathExpression->new(
+"/daily-lectionary/year[\@name=\"$yearNum\"]/week[\@name=\"$weekName\"]/day[\@name=\"$weekDay\"]/lesson[\@service=\"daily\" and \@order=\"2\"]"
+        );
+        $lesson3_xpath = XML::LibXML::XPathExpression->new(
+"/daily-lectionary/year[\@name=\"$yearNum\"]/week[\@name=\"$weekName\"]/day[\@name=\"$weekDay\"]/lesson[\@service=\"daily\" and \@order=\"3\"]"
+        );
+    }
+    catch {
+        carp
+"Could not compile the XPath Expression for $weekDay in $weekName in the $lectionary lectionary.";
+    };
+
+    my %readings;
+    try {
+        %readings = (
+            reading => {
+                1 => $readings->find($lesson1_xpath)->string_value(),
+                2 => $readings->find($lesson2_xpath)->string_value(),
+                3 => $readings->find($lesson3_xpath)->string_value()
+            }
+        );
+    }
+    catch {
+        carp
+"The readings for $weekDay in $weekName in the $lectionary lectionary could not be found.";
+    };
+
+    return \%readings;
 }
 
 =head2 _buildReadingsLiturgical
@@ -297,13 +424,22 @@ sub _buildReadingsLiturgical {
     my $eve1_xpath;
     my $eve2_xpath;
     try {
-        $morn1_xpath = XML::LibXML::XPathExpression->new("/daily-lectionary/week[\@name=\"$weekName\"]/day[\@name=\"$weekDay\"]/lesson[\@service=\"morning\" and \@order=\"1\"]");
-        $morn2_xpath = XML::LibXML::XPathExpression->new("/daily-lectionary/week[\@name=\"$weekName\"]/day[\@name=\"$weekDay\"]/lesson[\@service=\"morning\" and \@order=\"2\"]");
-        $eve1_xpath  = XML::LibXML::XPathExpression->new("/daily-lectionary/week[\@name=\"$weekName\"]/day[\@name=\"$weekDay\"]/lesson[\@service=\"evening\" and \@order=\"1\"]");
-        $eve2_xpath  = XML::LibXML::XPathExpression->new("/daily-lectionary/week[\@name=\"$weekName\"]/day[\@name=\"$weekDay\"]/lesson[\@service=\"evening\" and \@order=\"2\"]");
+        $morn1_xpath = XML::LibXML::XPathExpression->new(
+"/daily-lectionary/week[\@name=\"$weekName\"]/day[\@name=\"$weekDay\"]/lesson[\@service=\"morning\" and \@order=\"1\"]"
+        );
+        $morn2_xpath = XML::LibXML::XPathExpression->new(
+"/daily-lectionary/week[\@name=\"$weekName\"]/day[\@name=\"$weekDay\"]/lesson[\@service=\"morning\" and \@order=\"2\"]"
+        );
+        $eve1_xpath = XML::LibXML::XPathExpression->new(
+"/daily-lectionary/week[\@name=\"$weekName\"]/day[\@name=\"$weekDay\"]/lesson[\@service=\"evening\" and \@order=\"1\"]"
+        );
+        $eve2_xpath = XML::LibXML::XPathExpression->new(
+"/daily-lectionary/week[\@name=\"$weekName\"]/day[\@name=\"$weekDay\"]/lesson[\@service=\"evening\" and \@order=\"2\"]"
+        );
     }
     catch {
-        carp "Could not compile the XPath Expression for $weekDay in $weekName in the $lectionary lectionary.";
+        carp
+"Could not compile the XPath Expression for $weekDay in $weekName in the $lectionary lectionary.";
     };
 
     my %readings;
@@ -320,7 +456,8 @@ sub _buildReadingsLiturgical {
         );
     }
     catch {
-        carp "The readings for $weekDay in $weekName in the $lectionary lectionary could not be found.";
+        carp
+"The readings for $weekDay in $weekName in the $lectionary lectionary could not be found.";
     };
 
     return \%readings;
@@ -346,13 +483,22 @@ sub _buildReadingsSecular {
     my $eve1_xpath;
     my $eve2_xpath;
     try {
-        $morn1_xpath = XML::LibXML::XPathExpression->new("/daily-lectionary/day[\@date=\"$seekDate\"]/lesson[\@service=\"morning\" and \@order=\"1\"]");
-        $morn2_xpath = XML::LibXML::XPathExpression->new("/daily-lectionary/day[\@date=\"$seekDate\"]/lesson[\@service=\"morning\" and \@order=\"2\"]");
-        $eve1_xpath  = XML::LibXML::XPathExpression->new("/daily-lectionary/day[\@date=\"$seekDate\"]/lesson[\@service=\"evening\" and \@order=\"1\"]");
-        $eve2_xpath  = XML::LibXML::XPathExpression->new("/daily-lectionary/day[\@date=\"$seekDate\"]/lesson[\@service=\"evening\" and \@order=\"2\"]");
+        $morn1_xpath = XML::LibXML::XPathExpression->new(
+"/daily-lectionary/day[\@date=\"$seekDate\"]/lesson[\@service=\"morning\" and \@order=\"1\"]"
+        );
+        $morn2_xpath = XML::LibXML::XPathExpression->new(
+"/daily-lectionary/day[\@date=\"$seekDate\"]/lesson[\@service=\"morning\" and \@order=\"2\"]"
+        );
+        $eve1_xpath = XML::LibXML::XPathExpression->new(
+"/daily-lectionary/day[\@date=\"$seekDate\"]/lesson[\@service=\"evening\" and \@order=\"1\"]"
+        );
+        $eve2_xpath = XML::LibXML::XPathExpression->new(
+"/daily-lectionary/day[\@date=\"$seekDate\"]/lesson[\@service=\"evening\" and \@order=\"2\"]"
+        );
     }
     catch {
-        carp "Could not compile the XPath Expression for $seekDate in $weekName in the $lectionary lectionary.";
+        carp
+"Could not compile the XPath Expression for $seekDate in $weekName in the $lectionary lectionary.";
     };
 
     my %readings;
@@ -369,7 +515,8 @@ sub _buildReadingsSecular {
         );
     }
     catch {
-        carp "The readings for $seekDate in $weekName in the $lectionary lectionary could not be found.";
+        carp
+"The readings for $seekDate in $weekName in the $lectionary lectionary could not be found.";
     };
 
     return \%readings;
